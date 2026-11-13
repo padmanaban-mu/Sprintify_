@@ -1,44 +1,40 @@
-# Sprintify — Agile Team & Task Management
+# Sprintify
 
-Sprintify is a full-stack project and task management application built with the MERN stack. It provides project workspaces and multiple ways to organise and review tasks, including a drag-and-drop Kanban board, list view, calendar view, and a dashboard with project/task summaries.
+Sprintify is a MERN task and project management application. It lets a user organise work into projects and track tasks through a Kanban board, list view, or calendar view.
 
-## Features
+## What it includes
 
-- **Authentication:** registration, login, JWT-based sessions, and protected routes.
-- **Project workspaces:** create and manage projects.
-- **Kanban workflow:** move tasks between Backlog, Todo, In Progress, Review, and Done.
-- **Task details:** priority, tags, due dates, descriptions, and assignees.
-- **Multiple views:** Kanban, list, and calendar.
-- **Dashboard:** summary metrics and charts for task distribution and priorities.
-- **Interface:** responsive Tailwind styling, theme switching, and interaction feedback.
+- User registration and login with JWT authentication.
+- Project creation and project-specific task boards.
+- Drag-and-drop task movement across workflow columns.
+- Task priorities, tags, due dates, descriptions, and assignees.
+- List and calendar views alongside the Kanban board.
+- A dashboard with project and task summaries.
+- Light and dark theme options.
 
-## Technology
+## How it is put together
 
-| Layer | Technologies |
-| --- | --- |
-| Frontend | React 18, Vite, Tailwind CSS |
-| UI | Lucide React, Framer Motion |
-| Task interactions | @hello-pangea/dnd |
-| Charts | Recharts |
-| Backend | Node.js, Express |
-| Database | MongoDB, Mongoose |
-| Authentication | JWT, bcryptjs |
-
-## Architecture
+The React client communicates with an Express REST API. The API uses Mongoose to read and update project, task, and user records in MongoDB.
 
 ```text
-React + Vite client
-        |
-      Axios
-        |
-Express REST API
-        |
-     Mongoose
-        |
-     MongoDB
+React + Vite
+    |
+   Axios
+    |
+Express API
+    |
+ Mongoose
+    |
+ MongoDB
 ```
 
-## Repository structure
+## Stack
+
+**Client:** React 18, Vite, Tailwind CSS, React Router, Axios, Lucide React, Framer Motion, Recharts, and `@hello-pangea/dnd`.
+
+**Server:** Node.js, Express, MongoDB, Mongoose, JWT, bcryptjs, and dotenv.
+
+## Folder layout
 
 ```text
 .
@@ -53,72 +49,73 @@ Express REST API
     ├── middleware/
     ├── models/
     ├── routes/
+    ├── .env.example
     └── server.js
 ```
 
-## Run locally
+## Start locally
 
-### Prerequisites
+You need Node.js 18+, npm, and a MongoDB instance or Atlas cluster.
 
-- Node.js 18+
-- npm
-- MongoDB local instance or MongoDB Atlas cluster
-
-### Backend
+### 1. Get the code
 
 ```bash
 git clone https://github.com/padmanaban-mu/Sprintify_.git
-cd Sprintify_/server
+cd Sprintify_
+```
+
+### 2. Start the backend
+
+```bash
+cd server
 npm install
 ```
 
-Create `server/.env` using `server/.env.example` as a reference:
+Create `server/.env` using `.env.example` as a guide. The local configuration uses values in this form:
 
 ```env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb://127.0.0.1:27017/sprintify
 JWT_SECRET=replace_with_a_long_random_secret
 ```
 
-Start the backend:
+Then run:
 
 ```bash
 npm run dev
 ```
 
-### Frontend
+### 3. Start the client
 
-In a second terminal:
+Open a second terminal:
 
 ```bash
-cd Sprintify_/client
+cd client
 npm install
 npm run dev
 ```
 
-Configure the client API base URL to point to the backend. The current project documentation notes a local API URL; use an environment-based URL before deploying to another environment.
+Open the Vite URL printed in the terminal (normally [http://localhost:5173](http://localhost:5173)). Make sure the client API URL points to the backend at port 5000.
 
-## API overview
+## API areas
 
-The Express backend separates routes and controllers for:
+The Express server groups its routes around:
 
-- Authentication and user profile
+- Authentication and user profiles
 - Projects
 - Tasks
 
-The documented API includes create, read, update, and delete operations for project and task resources. See `server/routes/` for the implementation.
+The route and controller implementations are in `server/routes/` and `server/controllers/`.
 
-## Current limitations
+## Current constraints
 
-- Collaborative changes are not synchronised through WebSockets; users may need to refresh to see changes made elsewhere.
-- Task file uploads are not currently documented as implemented.
-- JWT tokens are stored in browser local storage in the current implementation.
-- Granular workspace roles, refresh-token rotation, password recovery, and server-side task pagination are potential improvements.
+- The app does not use WebSockets for live board synchronisation; another user's changes may require a refresh.
+- JWTs are stored in browser local storage in the current implementation.
+- The client API URL is configured for local development and needs an environment-specific value for deployment.
+- File attachments, password recovery, refresh-token rotation, and more granular workspace roles are not currently included.
 
-## Security and deployment
-
-Keep MongoDB credentials and JWT secrets in environment variables. Before production use, review token storage, CORS configuration, input validation, authorisation checks on every resource, rate limiting, and deployment-specific API URLs.
+Before deploying, review access checks for every project and task, token storage, CORS settings, input validation, rate limiting, and environment-specific URLs. Keep MongoDB credentials and JWT secrets out of Git.
 
 ## License
 
-The repository includes an MIT license badge. Refer to the LICENSE file for the authoritative license terms.
+See [LICENSE](LICENSE) for the repository's license terms.
