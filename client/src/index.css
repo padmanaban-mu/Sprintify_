@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+}
+
+html.dark body {
+  @apply bg-[#0b0e14] text-slate-100;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-white/10 rounded-xl hover:bg-slate-400 dark:hover:bg-white/20 transition-colors;
+}
+
+/* Animated Background Mesh */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-size: 200% 200%;
+  animation: meshAnim 15s ease infinite alternate;
+  transition: background-image 0.5s ease;
+}
+
+/* Light Mode Mesh */
+html.light .mesh-bg {
+  background-color: #f8fafc; /* slate-50 */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,80%,90%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,80%,95%,0.8) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,80%,90%,0.8) 0, transparent 50%);
+}
+
+/* Dark Mode Mesh */
+html.dark .mesh-bg {
+  background-color: #0b0e14;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+}
+
+@keyframes meshAnim {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 100%; }
+}
